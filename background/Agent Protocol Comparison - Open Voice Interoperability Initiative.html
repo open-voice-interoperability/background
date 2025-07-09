@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!-- Can be rendered as PDF with WeasyPrint for example on https://printcss.live/editor -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Protocol Comparison - Open Voice Interoperability Initiative</title>
+    <style>
+        /* Print CSS for A4 page */
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fafafa;
+            color: #333;
+            line-height: 1.5;
+            font-size: 10pt;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #003d71 0%, #0066cc 100%);
+            color: white;
+            padding: 20px;
+            margin: -15mm -15mm 20px -15mm;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0066cc 0%, #00a0d6 50%, #0066cc 100%);
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            color: #003d71;
+            font-size: 14pt;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+		.logo img{
+			max-width:100%;
+		}
+        
+        .header-text {
+            text-align: left;
+        }
+        
+        h1 {
+            margin: 0 0 5px 0;
+            font-size: 22pt;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .subtitle {
+            font-size: 11pt;
+            color: rgba(255,255,255,0.9);
+            margin: 0;
+            font-weight: 300;
+        }
+        
+        .foundation-credit {
+            font-size: 9pt;
+            color: rgba(255,255,255,0.8);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            background: white;
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #e1e5e9;
+            padding: 10px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-weight: 600;
+            color: #2d3748;
+            border-bottom: 2px solid #cbd5e1;
+            text-align: center;
+            font-size: 8.5pt;
+        }
+        
+        .comparison-table th:first-child {
+            background: linear-gradient(135deg, #003d71 0%, #0066cc 100%);
+            color: white;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .comparison-table td:first-child {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            font-weight: 600;
+            color: #2d3748;
+            border-right: 2px solid #cbd5e1;
+            width: 16%;
+        }
+        
+        /* Highlight OFP column - Linux Foundation inspired styling */
+        .comparison-table th:last-child,
+        .comparison-table td:last-child {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border: 2px solid #38b2ac;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .comparison-table th:last-child {
+            background: linear-gradient(135deg, #38b2ac 0%, #4fd1c7 100%);
+            color: white;
+            font-weight: 700;
+        }
+        
+        .comparison-table th:last-child::after {
+            content: "★ OPEN VOICE STANDARD";
+            display: block;
+            font-size: 6.5pt;
+            font-weight: 500;
+            margin-top: 3px;
+            opacity: 0.95;
+            letter-spacing: 0.5px;
+        }
+        
+        .comparison-table tr:nth-child(even) td:not(:first-child):not(:last-child) {
+            background: #f8fafc;
+        }
+        
+        .comparison-table tr:hover td {
+            background-color: #f0f9ff;
+        }
+        
+        .comparison-table tr:hover td:first-child {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+        
+        .comparison-table tr:hover td:last-child {
+            background: linear-gradient(135deg, #b2f5ea 0%, #81e6d9 100%);
+        }
+        
+        /* Responsive column widths */
+        .comparison-table th:first-child,
+        .comparison-table td:first-child {
+            width: 16%;
+        }
+        
+        .comparison-table th:not(:first-child),
+        .comparison-table td:not(:first-child) {
+            width: 16.8%;
+        }
+        
+        /* Special styling for strengths and limitations rows */
+        .comparison-table tr:nth-child(9) td:first-child {
+            color: #059669;
+            font-weight: 700;
+        }
+        
+        .comparison-table tr:nth-child(10) td:first-child {
+            color: #dc2626;
+            font-weight: 700;
+        }
+        
+        .comparison-table tr:nth-child(9) td:not(:first-child) {
+            font-style: italic;
+        }
+        
+        .comparison-table tr:nth-child(10) td:not(:first-child) {
+            font-style: italic;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                font-size: 8.5pt;
+            }
+            
+            .header {
+                margin: -15mm -15mm 15mm -15mm;
+            }
+            
+            .content {
+                box-shadow: none;
+                margin-bottom: 0;
+            }
+            
+            .comparison-table {
+                page-break-inside: avoid;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                border: 1px solid #333;
+                padding: 6px 5px;
+                font-size: 7.5pt;
+            }
+            
+            .comparison-table tr:hover td {
+                background-color: inherit !important;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 8pt;
+            color: #64748b;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer-links {
+            margin-top: 8px;
+        }
+        
+        .footer-links a {
+            color: #0066cc;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .technical-note {
+            background: #f0f9ff;
+            border-left: 4px solid #0066cc;
+            padding: 12px 16px;
+            margin: -40px 0 15px 0;
+            font-size: 8.5pt;
+            color: #1e40af;
+        }
+        
+        .technical-note strong {
+            color: #003d71;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo"><img src="https://avatars.githubusercontent.com/u/46052400?s=200&v=4" /></div>
+            <div class="header-text">
+                <h1>Agent Protocol Comparison</h1>
+                <p class="subtitle">Comprehensive Analysis of Conversational AI Communication Protocols</p>
+                <p class="foundation-credit">Open Voice Interoperability Initiative | Linux Foundation AI & Data</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="technical-note">
+            <strong>Technical Overview:</strong> This comparison evaluates five major agent communication protocols designed to enable interoperability between conversational AI systems. The Open Floor Protocol (OFP) represents the Linux Foundation's open-source approach to standardized agent collaboration.
+        </div>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Protocol Features</th>
+                    <th>MCP<br><small>Model Context Protocol</small></th>
+                    <th>A2A<br><small>Agent-to-Agent Protocol</small></th>
+                    <th>ANP<br><small>Agent Network Protocol</small></th>
+                    <th>ACP<br><small>Agent Communication Protocol</small></th>
+                    <th>OFP<br><small>Open Floor Protocol</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Developed By</td>
+                    <td>Anthropic</td>
+                    <td>Google</td>
+                    <td>Cisco</td>
+                    <td>IBM</td>
+                    <td>Linux Foundation AI & Data</td>
+                </tr>
+                <tr>
+                    <td>Architecture</td>
+                    <td>C/S</td>
+                    <td>Centralized P2P</td>
+                    <td>Decentralized P2P</td>
+                    <td>Brokered C/S</td>
+                    <td>Floor-Control State Machine</td>
+                </tr>
+                <tr>
+                    <td>Agent Discovery</td>
+                    <td>Manual Registration</td>
+                    <td>Agent Card Retrieval via HTTP</td>
+                    <td>Search Engine Discovery</td>
+                    <td>Registry Based with Directory Facilitator</td>
+                    <td>Capabilities described in Manifest, Agent Discovery is out of Scope</td>
+                </tr>
+                <tr>
+                    <td>Session Support</td>
+                    <td>Stateless</td>
+                    <td>Session Aware or Stateless</td>
+                    <td>Stateless; DID authenticated</td>
+                    <td>Session Aware with Run State Tracking</td>
+                    <td>Session Aware</td>
+                </tr>
+                <tr>
+                    <td>Transport Layer</td>
+                    <td>HTTP, Stdio, SSE</td>
+                    <td>Typically HTTP or Custom Messaging</td>
+                    <td>HTTP with JSON_LD</td>
+                    <td>HTTP with Incremental Streams</td>
+                    <td>JSON over WebSocket or HTTP</td>
+                </tr>
+                <tr>
+                    <td>Orchestration at Runtime</td>
+                    <td>❌</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>Limited</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td>Simultaneous Multiparty Conversations</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                    <td>Explicitly supports multiparty</td>
+                </tr>
+                <tr>
+                    <td>Strengths</td>
+                    <td>Best for Tool Calling</td>
+                    <td>Inter-Agent Negotiation</td>
+                    <td>AI-Native Protocol Negotiation</td>
+                    <td>Tool Modularity</td>
+                    <td>Interoperable Conversational Floor using NLP-based JSON messages</td>
+                </tr>
+                <tr>
+                    <td>Limitations</td>
+                    <td>Best for Tool Calling</td>
+                    <td>Assumes Agent Catalog</td>
+                    <td>High Negotiation Overhead</td>
+                    <td>High Negotiation Overhead</td>
+                    <td>Specialized focus on dialog turn-taking, not general agent coordination</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="footer">
+        <p><strong>Open Voice Interoperability Initiative</strong> • Protocol Analysis Report • Generated July 8, 2025</p>
+        <div class="footer-links">
+            <a href="https://voiceinteroperability.ai/">voiceinteroperability.ai</a> •
+            <a href="https://lfaidata.foundation/">Linux Foundation AI & Data</a> •
+            <a href="https://github.com/open-voice-interoperability">GitHub Repository</a>
+        </div>
+    </div>
+</body>
+</html>
